@@ -13,39 +13,36 @@ def RSCU():
 
     clade = yeast_table["clade"]== "CUG-Ser1 clade"
 
-    codon_dict = {'1':['ATG'], '2':['TTT', 'TTC'], '6':['TTA', 'TTG', 'CTT', 'CTC', 'CTA', 'CTG'], '2':['TGT', 'TGC'], '2':['TAC', 'TAT'], '1':['TGG'], '4':['CCT', 'CCC', 'CCA', 'CCG'], '2':['CAT', 'CAC'],
-    '2':['CAA', 'CAG'], '6':['CGT', 'CGC', 'CGA', 'CGG', 'AGA', 'AGG'], '3':['ATT', 'ATC', 'ATA'], '4':['ACT', 'ACC', 'ACA', 'ACG'],
-    '2':['AAT', 'AAC'], '2':['AAA', 'AAG'], '6':['AGT', 'AGC', 'TCT', 'TCC', 'TCA', 'TCG'], '4':['GTT', 'GTC', 'GTA', 'GTG'],
-    '4':['GCT', 'GCC', 'GCA', 'GCG'], '2':['GAT', 'GAC'], '2':['GAA', 'GAG'], '4':['GGT', 'GGC', 'GGA', 'GGG'], '3':['TAA','TAG','TGA']}
+    aa_dict = {'Met':['ATG'], 'Phe':['TTT', 'TTC'], 'Leu':['TTA', 'TTG', 'CTT', 'CTC', 'CTA', 'CTG'], 'Cys':['TGT', 'TGC'], 'Tyr':['TAC', 'TAT'], 'Trp':['TGG'], 'Pro':['CCT', 'CCC', 'CCA', 'CCG'], 'His':['CAT', 'CAC'],
+    'Gln':['CAA', 'CAG'], 'Arg':['CGT', 'CGC', 'CGA', 'CGG', 'AGA', 'AGG'], 'Ile':['ATT', 'ATC', 'ATA'], 'Thr':['ACT', 'ACC', 'ACA', 'ACG'],
+    'Asn':['AAT', 'AAC'], 'Lys':['AAA', 'AAG'], 'Ser':['AGT', 'AGC', 'TCT', 'TCC', 'TCA', 'TCG'], 'Val':['GTT', 'GTC', 'GTA', 'GTG'],
+    'Ala':['GCT', 'GCC', 'GCA', 'GCG'], 'Asp':['GAT', 'GAC'], 'Glu':['GAA', 'GAG'], 'Gly':['GGT', 'GGC', 'GGA', 'GGG'], '*':['TAA','TAG','TGA']}
 
-    codon_counts = codon_dict.keys()
+    codon_counts = aa_dict.values()
     #print(codon_counts)
 
 
-    # Phe_table = codon_csv_Table.loc[codon_csv_Table["Codon"].isin(["TTT","TTC"])]
-    # Phe_table["Frequency"] = Phe_table["Frequency"].apply(lambda x: x*2)
-    # print(Phe_table)
 
-    Phe_table = codon_csv_Table.loc[codon_csv_Table["Codon"].isin(["TTT","TTC"])]
-    Phe_table["RSCU"] = codon_csv_Table["Frequency"].apply(lambda x: x*2)
-    #print(Phe_table)
+    lst = []
 
-    Leu_table = codon_csv_Table.loc[codon_csv_Table["Codon"].isin(['TTA', 'TTG', 'CTT', 'CTC', 'CTA', 'CTG'])]
-    Leu_table["RSCU"] = codon_csv_Table["Frequency"].apply(lambda x: x*6)
-    #print(Leu_table)
+    for codon in codon_counts:
+        he_table = codon_csv_Table.loc[codon_csv_Table["Codon"].isin(codon)]
+        he_table["RSCU"] = he_table["Frequency"].apply(lambda x: x*len(codon))
+        lst.append(he_table)
 
-    Cys_table = codon_csv_Table.loc[codon_csv_Table["Codon"].isin(['TGT', 'TGC'])]
-    Cys_table["RSCU"] = codon_csv_Table["Frequency"].apply(lambda x: x*2)
-
-    Tyr_table = codon_csv_Table.loc[codon_csv_Table["Codon"].isin(['TAC', 'TAT'])]
-    Tyr_table["RSCU"] = codon_csv_Table["Frequency"].apply(lambda x: x*2)
-
-    df_all = pd.concat([Phe_table, Leu_table, Cys_table, Tyr_table])
-    print(df_all)
-    #print(Phe_table)
-    #Leu_table
+    df_all = pd.concat(lst)
+    df_all = df_all.drop(["Amino acid","Frequency","Percentage","Codon Count"], axis=1)
+    print(df_all.iloc[10500])
 
 
+        # if i == ['ATG']:
+        #     print("p")
+        #     #he_table = codon_csv_Table.loc[codon_csv_Table["Codon"].isin(i)]
+        # elif i == ['TTT', 'TTC']:
+        #     print("y")
+        #
+        # elif i == ['TTA', 'TTG', 'CTT', 'CTC', 'CTA', 'CTG']:
+        #     print("o")
 
 
 
