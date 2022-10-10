@@ -127,6 +127,7 @@ def RSCU():
 
             df_all = pd.concat(lst)
             df_all.to_csv(files + "_RSCU.csv", index = False, header=True)
+            lst.clear()
             print(df_all)
 
         elif files.startswith(tuple(Ser2_lst)):
@@ -161,6 +162,7 @@ def RSCU():
 
             df_all = pd.concat(lst)
             df_all.to_csv(files + "_RSCU.csv", index = False, header=True)
+            lst.clear()
             print(df_all)
 
         elif files.startswith(tuple(Ala_lst)):
@@ -195,6 +197,7 @@ def RSCU():
 
             df_all = pd.concat(lst)
             df_all.to_csv(files + "_RSCU.csv", index = False, header=True)
+            lst.clear()
             print(df_all)
 
         else:
@@ -208,6 +211,7 @@ def RSCU():
 
             df_all = pd.concat(lst)
             df_all.to_csv(files + "_RSCU.csv", index = False, header=True)
+            lst.clear()
             print(df_all)
 
 
