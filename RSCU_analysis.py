@@ -22,6 +22,11 @@ def RSCU():
     Ser2_clade_table = yeast_table.loc[yeast_table["clade"].isin(["CUG-Ser2 clade"])]
     Ser2_lst = Ser2_clade_table["assembly_fullID"].values.tolist()
 
+    yeast_table = yeast_table[yeast_table.clade.isin(["CUG-Ser1 clade"]) == False]
+    yeast_table = yeast_table[yeast_table.clade.isin(["CUG-Ser2 clade"]) == False]
+    yeast_table = yeast_table[yeast_table.clade.isin(["CUG-Ala clade"]) == False]
+    yeast_lst = yeast_table["assembly_fullID"].values.tolist()
+
     lst = []
 
 
@@ -211,8 +216,8 @@ def RSCU():
             lst.clear()
             print(df_all)
 
-        else:
-            #fh = open(files)
+        elif files.startswith(tuple(yeast_lst)):
+            #fh = open(files) yeast_lst
             codon_csv_Table = pd.read_csv(files)
             for codon in codon_counts:
                 codon_table = codon_csv_Table.loc[codon_csv_Table["Codon"].isin(codon)]
