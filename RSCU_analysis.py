@@ -3,13 +3,10 @@ import re
 import os
 
 def RSCU():
-    path = '/scratch/bzavalam/cds_csv' #for clsuter
-    #path = '/mnt/c/Users/bryan/OneDrive/Documents/Codon_Analysis'
+    path = '/scratch/bzavalam/cds_csv'
     ext = ('out.csv')
 
-    #codon_csv_Table = pd.read_csv("yHMPu5000037917_candida_blattariae_170210.final.cds.all_codonTable.out.csv")
-    # codon_csv_Table = codon_csv_Table.dropna()
-
+    #Read yeast csv profile of all the genomes and respective clades
     yeast_table = pd.read_csv("1154yeasts_21outrgoups_info_20220408.csv")
     clade_reassign_lst = ["CUG-Ser1 clade","CUG-Ala clade", "CUG-Ser2 clade"]
 
@@ -55,64 +52,9 @@ def RSCU():
     ala_codon_counts = aa_ala_dict.values()
 
 
-    #this is for testing purposes
-    # for codon in Ser1_codon_counts:
-    #     #Ser1 clade example
-    #     #for codon in Ser1_codon_counts:
-    #     if codon == ['TTA', 'TTG', 'CTT', 'CTC', 'CTA']:
-    #         test_codon_table = codon_csv_Table.loc[codon_csv_Table["Codon"].isin(codon)]
-    #         test_codon_table = test_codon_table.drop(["Amino acid","Frequency","Percentage"], axis=1)
-    #         average_codon_table = test_codon_table.groupby(['Sequence'], as_index=False).agg(Sum = ('Codon Count','sum'))#.sum()
-    #
-    #         merged = test_codon_table.merge(average_codon_table)
-    #         merged['RSCU'] = (merged['Codon Count'] / merged['Sum']) * len(codon)
-    #         merged = merged.drop(['Sum',"Codon Count"], axis=1)
-    #         lst.append(merged)
-    #     elif codon == ['AGT', 'AGC', 'TCT', 'TCC', 'TCA', 'TCG', 'CTG']:
-    #         test_codon_table = codon_csv_Table.loc[codon_csv_Table["Codon"].isin(codon)]
-    #         test_codon_table = test_codon_table.drop(["Amino acid","Frequency","Percentage"], axis=1)
-    #         average_codon_table = test_codon_table.groupby(['Sequence'], as_index=False).agg(Sum = ('Codon Count','sum'))#.sum()
-    #
-    #         merged = test_codon_table.merge(average_codon_table)
-    #         merged['RSCU'] = (merged['Codon Count'] / merged['Sum']) * len(codon)
-    #         merged = merged.drop(['Sum',"Codon Count"], axis=1)
-    #         lst.append(merged)
-    #     else:
-    #         codon_csv_Table = codon_csv_Table[codon_csv_Table.Codon.isin(['TTA', 'TTG', 'CTT', 'CTC', 'CTA']) == False]
-    #         codon_csv_Table = codon_csv_Table[codon_csv_Table.Codon.isin(['AGT', 'AGC', 'TCT', 'TCC', 'TCA', 'TCG', 'CTG']) == False]
-    #         codon_table = codon_csv_Table.loc[codon_csv_Table["Codon"].isin(codon)]
-    #         codon_table["RSCU"] = codon_table["Frequency"].apply(lambda x: x*len(codon))
-    #         codon_table = codon_table.drop(["Amino acid","Frequency","Percentage","Codon Count"], axis=1)
-    #         lst.append(codon_table)
-    #
-    # df_all = pd.concat(lst)
-    # print(df_all)
-    # df_all.to_csv("df_all" + "_RSCU.csv", index = False, header=True)
-
-        #df_all.to_csv(files + "_RSCU.csv", index = False, header=True)
-
-
-    # This is for codon reassignments
-    # test_codon_table = codon_csv_Table.loc[codon_csv_Table["Codon"].isin(['TTA', 'TTG', 'CTT', 'CTC', 'CTA'])]
-    # test_codon_table = test_codon_table.drop(["Amino acid","Frequency","Percentage"], axis=1)
-    #
-    # average_codon_table = test_codon_table.groupby(['Sequence'], as_index=False).agg(Sum = ('Codon Count','sum'))#.sum()
-    #
-    # merged = test_codon_table.merge(average_codon_table)
-    # merged['RSCU'] = (merged['Codon Count'] / merged['Sum']) * len(['TTA', 'TTG', 'CTT', 'CTC', 'CTA'])
-    # merged = merged.drop(['Sum',"Codon Count"], axis=1)
-    #
-    # new_Leu = ['CTA','TTG']
-    # merged = merged[merged.Codon.isin(new_Leu) == False]
-    #
-    # print(merged)
-    # print(test_codon_table)
-
-
 
     for files in os.listdir(path):
-        if files.startswith(tuple(Ser1_lst)):
-            #fh = open(files)
+        if files.startswith(tuple(Ser1_lst)) or files.startswith(tuple(Ser2_lst)):
             codon_csv_Table = pd.read_csv(files)
             for codon in Ser1_codon_counts:
                 if codon == ['TTA', 'TTG', 'CTT', 'CTC', 'CTA']:
@@ -146,43 +88,8 @@ def RSCU():
             lst.clear()
             print(df_all)
 
-        elif files.startswith(tuple(Ser2_lst)):
-            #fh = open(files)
-            codon_csv_Table = pd.read_csv(files)
-            for codon in Ser2_codon_counts:
-                if codon == ['TTA', 'TTG', 'CTT', 'CTC', 'CTA']:
-                    test_codon_table = codon_csv_Table.loc[codon_csv_Table["Codon"].isin(codon)]
-                    test_codon_table = test_codon_table.drop(["Amino acid","Frequency","Percentage"], axis=1)
-                    average_codon_table = test_codon_table.groupby(['Sequence'], as_index=False).agg(Sum = ('Codon Count','sum'))#.sum()
-
-                    merged = test_codon_table.merge(average_codon_table)
-                    merged['RSCU'] = (merged['Codon Count'] / merged['Sum']) * len(codon)
-                    merged = merged.drop(['Sum',"Codon Count"], axis=1)
-                    lst.append(merged)
-                elif codon == ['AGT', 'AGC', 'TCT', 'TCC', 'TCA', 'TCG', 'CTG']:
-                    test_codon_table = codon_csv_Table.loc[codon_csv_Table["Codon"].isin(codon)]
-                    test_codon_table = test_codon_table.drop(["Amino acid","Frequency","Percentage"], axis=1)
-                    average_codon_table = test_codon_table.groupby(['Sequence'], as_index=False).agg(Sum = ('Codon Count','sum'))#.sum()
-
-                    merged = test_codon_table.merge(average_codon_table)
-                    merged['RSCU'] = (merged['Codon Count'] / merged['Sum']) * len(codon)
-                    merged = merged.drop(['Sum',"Codon Count"], axis=1)
-                    lst.append(merged)
-                else:
-                    codon_csv_Table = codon_csv_Table[codon_csv_Table.Codon.isin(['TTA', 'TTG', 'CTT', 'CTC', 'CTA']) == False]
-                    codon_csv_Table = codon_csv_Table[codon_csv_Table.Codon.isin(['AGT', 'AGC', 'TCT', 'TCC', 'TCA', 'TCG', 'CTG']) == False]
-                    codon_table = codon_csv_Table.loc[codon_csv_Table["Codon"].isin(codon)]
-                    codon_table["RSCU"] = codon_table["Frequency"].apply(lambda x: x*len(codon))
-                    codon_table = codon_table.drop(["Amino acid","Frequency","Percentage","Codon Count"], axis=1)
-                    lst.append(codon_table)
-
-            df_all = pd.concat(lst)
-            df_all.to_csv(files + "_RSCU.csv", index = False, header=True)
-            lst.clear()
-            print(df_all)
 
         elif files.startswith(tuple(Ala_lst)):
-            #fh = open(files)
             codon_csv_Table = pd.read_csv(files)
             for codon in ala_codon_counts:
                 if codon == ['TTA', 'TTG', 'CTT', 'CTC', 'CTA']:
@@ -217,7 +124,6 @@ def RSCU():
             print(df_all)
 
         elif files.startswith(tuple(yeast_lst)):
-            #fh = open(files) yeast_lst
             codon_csv_Table = pd.read_csv(files)
             for codon in codon_counts:
                 codon_table = codon_csv_Table.loc[codon_csv_Table["Codon"].isin(codon)]
