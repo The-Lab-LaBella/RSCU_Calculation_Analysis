@@ -19,9 +19,7 @@ def RSCU():
     Ser2_clade_table = yeast_table.loc[yeast_table["clade"].isin(["CUG-Ser2 clade"])]
     Ser2_lst = Ser2_clade_table["assembly_fullID"].values.tolist()
 
-    yeast_table = yeast_table[yeast_table.clade.isin(["CUG-Ser1 clade"]) == False]
-    yeast_table = yeast_table[yeast_table.clade.isin(["CUG-Ser2 clade"]) == False]
-    yeast_table = yeast_table[yeast_table.clade.isin(["CUG-Ala clade"]) == False]
+    yeast_table = yeast_table[yeast_table.clade.isin(["CUG-Ser1 clade","CUG-Ser2 clade","CUG-Ala clade"]) == False]
     yeast_lst = yeast_table["assembly_fullID"].values.tolist()
 
     lst = []
@@ -135,9 +133,6 @@ def RSCU():
             df_all.to_csv(files + "_RSCU.csv", index = False, header=True)
             lst.clear()
             print(df_all)
-
-
-    #sed -i '1i Sequence, Codon, Amino acid, Frequency, Percentage, Codon Count' filename (had to add a header to the files)
 
 
 if __name__ == '__main__':
