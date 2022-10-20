@@ -10,5 +10,5 @@ for (file in RSCU_data)
   
   file.create(filename)
   
-  write.csv(results, file = filename, append = TRUE)
+  write.csv(data, file = filename, append = TRUE)
 }
