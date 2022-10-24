@@ -9,22 +9,27 @@ def RSCU():
     #Read yeast csv profile of all the genomes and respective clades
     yeast_table = pd.read_csv("1154yeasts_21outrgoups_info_20220408.csv")
     clade_reassign_lst = ["CUG-Ser1 clade","CUG-Ala clade", "CUG-Ser2 clade"]
-
+    
+    #Make a seperate dataframe of Species that are in the CUG-Ser1 clade and put the species names on a list
     Ser1_clade_table = yeast_table.loc[yeast_table["clade"].isin(["CUG-Ser1 clade"])]
     Ser1_lst = Ser1_clade_table["assembly_fullID"].values.tolist()
 
+    #Make a seperate dataframe of Species that are in the CUG-Ala clade and put the species names on a list
     Ala_clade_table = yeast_table.loc[yeast_table["clade"].isin(["CUG-Ala clade"])]
     Ala_lst = Ala_clade_table["assembly_fullID"].values.tolist()
 
+    #Make a seperate dataframe of Species that are in the CUG-Ser2 clade and put the species names on a list
     Ser2_clade_table = yeast_table.loc[yeast_table["clade"].isin(["CUG-Ser2 clade"])]
     Ser2_lst = Ser2_clade_table["assembly_fullID"].values.tolist()
 
+    #Make a seperate dataframe of Species that are in the CUG-Ser1 clade and put the species names on a list
     yeast_table = yeast_table[yeast_table.clade.isin(["CUG-Ser1 clade","CUG-Ser2 clade","CUG-Ala clade"]) == False]
     yeast_lst = yeast_table["assembly_fullID"].values.tolist()
 
+    #Empty list for concatenating dataframes for one collective dataframe
     lst = []
 
-
+    #Dictionary of amino acids and codons for seperate clades, the dictionary will go through a for loop (where order is important) 
     aa_reg_dict = {'Met':['ATG'], 'Phe':['TTT', 'TTC'], 'Leu':['TTA', 'TTG', 'CTT', 'CTC', 'CTA', 'CTG'], 'Cys':['TGT', 'TGC'], 'Tyr':['TAC', 'TAT'], 'Trp':['TGG'], 'Pro':['CCT', 'CCC', 'CCA', 'CCG'], 'His':['CAT', 'CAC'],
     'Gln':['CAA', 'CAG'], 'Arg':['CGT', 'CGC', 'CGA', 'CGG', 'AGA', 'AGG'], 'Ile':['ATT', 'ATC', 'ATA'], 'Thr':['ACT', 'ACC', 'ACA', 'ACG'],
     'Asn':['AAT', 'AAC'], 'Lys':['AAA', 'AAG'], 'Ser':['AGT', 'AGC', 'TCT', 'TCC', 'TCA', 'TCG'], 'Val':['GTT', 'GTC', 'GTA', 'GTG'],
@@ -44,13 +49,17 @@ def RSCU():
     'Gln':['CAA', 'CAG'], 'Arg':['CGT', 'CGC', 'CGA', 'CGG', 'AGA', 'AGG'], 'Ile':['ATT', 'ATC', 'ATA'], 'Thr':['ACT', 'ACC', 'ACA', 'ACG'],
     'Asn':['AAT', 'AAC'], 'Lys':['AAA', 'AAG'], 'Ser':['AGT', 'AGC', 'TCT', 'TCC', 'TCA', 'TCG'], 'Val':['GTT', 'GTC', 'GTA', 'GTG'], 'Asp':['GAT', 'GAC'], 'Glu':['GAA', 'GAG'], 'Gly':['GGT', 'GGC', 'GGA', 'GGG'], '*':['TAA','TAG','TGA']}
 
+    #Extract the codons from each amino acis into a seperate list
     codon_counts = aa_reg_dict.values()
     Ser1_codon_counts = aa_Ser1_dict.values()
     Ser2_codon_counts = aa_Ser2_dict.values()
     ala_codon_counts = aa_ala_dict.values()
 
 
-
+    #for loops that go through each file in the directory and sees another files with the species name
+    #If the species name is found of a particular clade then it will read the file and create a seperate dataframe where the codons have gone a reassignment for an amino acid
+    #This dataframe will be recalculated for RSCU and then put into a growing list where it will be concatenated dataframe of recalculated RSCU values
+    #Once done it will create a csv file of RSCU values as well as codon and gene sequence names
     for files in os.listdir(path):
         if files.startswith(tuple(Ser1_lst)) or files.startswith(tuple(Ser2_lst)):
             codon_csv_Table = pd.read_csv(files)
