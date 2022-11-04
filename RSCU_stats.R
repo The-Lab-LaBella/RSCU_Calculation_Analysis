@@ -12,7 +12,7 @@ for (data in RSCU_data)
   
   	mean(Y, na.rm = TRUE)
   
-  	results <- aggregate(x=Y, by=list(loaded_data[['Codon']]), FUN=mean)
+  	results <- aggregate(x=Y, by=list(loaded_data[['Codon']]), FUN=mean, na.rm=TRUE, na.action=NULL)
   	  	
   	file_header <- "Mean_summary_"
   	
