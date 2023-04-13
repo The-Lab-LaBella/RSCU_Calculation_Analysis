@@ -109,4 +109,3 @@ while(index<=66){
 PGLS_df <- data.frame(codons=codvs, slope=coeff, p_value=pvalue, lambda=lam, r_squared=rSqr, adusted_r_squared=adSqr)
 
 write.csv(PGLS_df,"RSCU_Untransformed_PGLS_profile.csv", row.names=FALSE)
-#write.csv(PGLS_df,"/projects/labella_lab/all_files_y1000_plus/RSCU_PGLS/RSCU_PGLS_profile.csv", row.names=FALSE)
