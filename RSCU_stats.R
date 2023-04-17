@@ -31,3 +31,4 @@ for (data in RSCU_data)
     #Add contents to the created file (RSCU average of each genome for the species)
   	write.table(results, file = filename, append = TRUE)
 }
+ 
