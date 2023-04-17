@@ -43,7 +43,3 @@ done
 
 cp *all_codonTable.out cds_codonTables
 
-#for sequence in *seq.txt;
-#do
-#	cusp $sequence $sequence.codonTable.out
-#done
