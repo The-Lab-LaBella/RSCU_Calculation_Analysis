@@ -2,7 +2,7 @@
 #SBATCH --partition=Orion
 #SBATCH --time=15:00:00
 
-#python3 codonTable_edit_file.py >> Combined_cds_tables.csv
+#This is a simple Bash script just to add commas seperating the columns to convert them into a csv file
 
 for file in *out;
 do
