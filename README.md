@@ -12,4 +12,6 @@ Below is a descripution of each file and its purpose (Each file is explained in 
 
 **RSCU_stats.R** - This is an R script that calculates the average RSCU values of a codon throughout the CDS of a yeast species, requires the output files from RSCU_analysis.py
 
+**RSCU_stats_editor.sh** - Shell script that formats the file in a more convetional way for processing
+
 
