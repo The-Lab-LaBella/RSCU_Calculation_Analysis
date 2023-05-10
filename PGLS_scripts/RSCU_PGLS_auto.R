@@ -4,8 +4,6 @@ if (!require("ggplot2")) install.packages("ggplot2"); library(ggplot2)
 
 if (!require("reshape2")) install.packages("reshape2"); library(reshape2)
 
-theme_set(theme_classic())
-
 if (!require("dplyr")) install.packages("dplyr"); library(dplyr)
 
 if (!require("readxl")) install.packages("readxl"); library(readxl)
