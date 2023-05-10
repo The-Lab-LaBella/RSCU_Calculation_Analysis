@@ -14,4 +14,5 @@ Below is a descripution of each file and its purpose (Each file is explained in 
 
 **RSCU_stats_editor.sh** - Shell script that formats the RSCU_stats.R output files in a more convetional way for processing
 
+**RSCU_matrix_generator.R** - These files take the outputs of the RSCU_stats_editor.sh script that converts all the yeast species average RSCU files into one matrix file
 
