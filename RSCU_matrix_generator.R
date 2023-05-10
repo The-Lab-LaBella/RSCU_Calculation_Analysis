@@ -1,17 +1,12 @@
-#generating data
 
-library(heatmap3)
-
-RSCU_data <- list.files(path="", pattern = "^Edited")
+RSCU_data <- list.files(path="PATH/TO/DIRECTORY", pattern = "^Edited")
 
 #Empty vector
 file_matrix <- c()
 
 file.create("Yeast_Matrix.csv")
 
-#print(file_matrix)
-
-
+#Goes through RSCU average files and converts them into a combined matrix file for further analysis
 for (file in RSCU_data)
 {
   loaded_data <- read.csv(file)
@@ -19,8 +14,5 @@ for (file in RSCU_data)
   file_matrix <- c(file_matrix, loaded_data)
   
 }
-
-#View(t(as.matrix(file_matrix)))
-#print(file_matrix)
 
 write.csv(file_matrix, file= "Yeast_Matrix.csv", append=FALSE)
