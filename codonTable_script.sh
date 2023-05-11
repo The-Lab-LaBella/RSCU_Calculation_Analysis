@@ -44,7 +44,7 @@ done
 #cp *all_codonTable.out cds_codonTables
 #This is a simple Bash script just to add commas seperating the columns to convert them into a csv file
 
-for file in *out;
+for file in *all_codonTable.out;
 do
 	awk '{print $1","$2","$3","$4","$5","$6}' $file >> $file.csv
 	sed -i '1i Sequence,Codon,Amino acid,Frequency,Percentage,Codon Count' $file.csv
