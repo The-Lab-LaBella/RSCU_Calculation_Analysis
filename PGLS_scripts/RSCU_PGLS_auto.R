@@ -4,6 +4,8 @@ if (!require("ggplot2")) install.packages("ggplot2"); library(ggplot2)
 
 if (!require("reshape2")) install.packages("reshape2"); library(reshape2)
 
+theme_set(theme_classic())
+
 if (!require("dplyr")) install.packages("dplyr"); library(dplyr)
 
 if (!require("readxl")) install.packages("readxl"); library(readxl)
@@ -42,33 +44,29 @@ lam <- c() #empty list for lambda values
 codvs <- c() #empty list for codon labels (AAA vs AAC)
 rSqr <- c() #empty list for r squared
 adSqr <- c() #empty list for adjusted r squared
+intercpt <- c() #empty list for intercept
 
-#lets see if the seed changes things
-eff_seed <- sample(1:2^15, 1)
-print(sprintf("Seed for session: %s", eff_seed))
-set.seed(eff_seed)
+#seed for reproducibility
+set.seed(123)
 
 
-#create a safe version of pgls to bypass any errors that occur
+#create a safe version of pgls
 pgls.possible=possibly(.f=pgls, otherwise=NULL)
 
-#Index of where the column of the codon starts
+
 index<-3
 
-#Goes through all the indices that contains the codon values
+#When doing this for real change to 67
 while(index<=66){
   
   column<-3
-  #Goes through all the indices that contains the codon values to test against each other  
+  #When doing this for real change to 67 
   while (column<=66){
-  #Test codons that are not the same e.g(AAA vs AAA)
-    if(column != index)
-      #Run PGLS
-      summ <- pgls.possible( yeast_data[,c(index)] ~ yeast_data[,c(column)], comparative.data(all_tree,yeast_data,"Tip_ID_on_tree"), lambda = "ML", bounds = list(lambda=c(0.001,1), kappa=c(1e-6,3), delta=c(1e-6,3)) )
-      #Append the codons that are being tested against each other
-      codvs <- append(codvs, print(paste0(names(yeast_data)[index]," vs ", names(yeast_data)[column])))
+    if(column != index){
+      #Y=AAA, X=AAT
       
-      #If an error occurs append "NULL" in the results, else continue appending the output results
+      summ <- pgls.possible( yeast_data[,c(index)] ~ yeast_data[,c(column)], comparative.data(all_tree,yeast_data,"Tip_ID_on_tree"), lambda = "ML")
+      codvs <- append(codvs, print(paste0(names(yeast_data)[index]," vs ", names(yeast_data)[column])))
       if(is.null(summ)==T){
         coeff <- append(coeff, "NULL") 
         
@@ -79,6 +77,8 @@ while(index<=66){
         rSqr <- append(rSqr, "NULL")
 
         adSqr <- append(adSqr, "NULL")
+
+        intercpt <- append(intercpt, "NULL")
       }else{
           coeff <- append(coeff, signif(summary(summ)$coefficients[2,1], 5)) 
     
@@ -90,8 +90,10 @@ while(index<=66){
 
           adSqr <- append(adSqr, signif(summary(summ)$adj.r.squared, 5))
 
+          intercpt <- append(intercpt, coef(summ)[["(Intercept)"]])
+
       }
-      #Print the column that is being tested
+      
       print("column is")
       print(column)
     }
@@ -106,7 +108,7 @@ while(index<=66){
 }
 
 
-PGLS_df <- data.frame(codons=codvs, slope=coeff, p_value=pvalue, lambda=lam, r_squared=rSqr, adusted_r_squared=adSqr)
+PGLS_df <- data.frame(codons=codvs, slope=coeff, intercept=intercpt, p_value=pvalue, lambda=lam, r_squared=rSqr, adusted_r_squared=adSqr)
 
-#Output results to a csv file
-write.csv(PGLS_df,"RSCU_PGLS_profile.csv", row.names=FALSE)
+write.csv(PGLS_df,"RSCU_Untransformed_PGLS_profile.csv", row.names=FALSE)
+#write.csv(PGLS_df,"/projects/labella_lab/all_files_y1000_plus/RSCU_PGLS/RSCU_PGLS_profile.csv", row.names=FALSE)
