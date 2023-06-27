@@ -8,9 +8,6 @@
 
 module load emboss
 
-#ls *.gz | xargs -n1 tar -xzf
-
-#gunzip *gz
 
 for file in *cds;
 do
