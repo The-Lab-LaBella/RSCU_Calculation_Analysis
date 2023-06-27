@@ -35,7 +35,8 @@ do
 
 		rm $line.codonTable.out		
 	done
-	
+
+ 	rm $file.seq_name
 done
 
 #cp *all_codonTable.out cds_codonTables
