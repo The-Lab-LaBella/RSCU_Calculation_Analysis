@@ -92,7 +92,7 @@ done
 
 
 #Extract cds from gtf files
-https://github.com/TransDecoder/TransDecoder/wiki
+#https://github.com/TransDecoder/TransDecoder/wiki
 directory="/projects/labella_lab/all_files_y1000_plus/hanseniaspora_sequencing_data/for_alnment/occid"
 
 for gtf_file in "$directory"/*.gtf; do
