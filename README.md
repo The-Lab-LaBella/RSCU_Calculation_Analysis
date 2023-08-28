@@ -16,3 +16,4 @@ Below is a descripution of each file and its purpose (Each file is explained in 
 
 **RSCU_matrix_generator.R** - These files take the outputs of the RSCU_stats_editor.sh script that converts all the yeast species average RSCU files into one matrix file
 
+**transcript_assembly.sh** - Shell script for trancriptome assembly, annotation, and extracting of CDS from replicates
